@@ -1,6 +1,5 @@
 package com.github.simpleexample.kafka.tutorial1;
 
-import jdk.nashorn.internal.codegen.CompilerConstants;
 import org.apache.kafka.clients.producer.*;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.slf4j.Logger;
@@ -28,7 +27,12 @@ public class ProducerDemoWithCallback {
         for (int i = 0; i < 10; i++) {
 
             // create producer record
-            ProducerRecord<String, String> record = new ProducerRecord<>("first_topic", "hello world " + i);
+            String topic = "first_topic";
+            String value = "Hello world" + Integer.toString(i);
+            String key = "id_" + Integer.toString(i);
+
+            ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, value);
+
 
             producer.send(record, new Callback() {
                 public void onCompletion(RecordMetadata metadata, Exception exception) {
